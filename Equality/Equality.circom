@@ -2,6 +2,7 @@ pragma circom 2.1.4;
 
 // Input 3 values using 'a'(array of length 3) and check if they all are equal.
 // Return using signal 'c'.
+// Return 1 if equal, 0 is not equal.
 
 template IsZero() {
 
@@ -22,20 +23,22 @@ template Equality() {
    
    signal input a[3];  
    signal output out;
-
    signal inter;
 
+   component isz1 = IsZero();
+   component isz2 = IsZero();
+   component isz3 = IsZero();
 
-   
-   component isz = IsZero();
-   //if equal: a + b == 2c
-   //inter is 0 or someValue
+   // IsZero returns 1 if equal. 0 if not equal
+   a[0] - a[1] ==> isz1.in;
+   a[1] - a[2] ==> isz2.in;
+   a[0] - a[2] ==> isz3.in;
 
-   isz.in <== a[2] + a[1] - (a[0] * 2);
-
-   out <== isz.out;
+   // if diff non-zero -> not equal
+   // can i just use assign to inter and out? all the necessary constraints are above anw
+   inter <== isz1.out * isz2.out; 
+   out <== inter * isz3.out;
       
-
 }
 
 // out = 1, if equal
@@ -53,6 +56,11 @@ therefore, cannot do the following:
  
  will result in false positive.
 
+cannot do a + b == 2c, since a,b,c could be distinct but honor the equality
+E.g.
+   a + b == 2c          (mod 7)
+   3 + 4 == 2(4)
+       8 == 8           (mod 7)
 
 */
 
@@ -80,4 +88,34 @@ template Equality() {
 
 }
 
+*/
+
+/*
+   signal input a[3];  
+   signal output out;
+   var x = 1;
+
+   //component isz1 = IsZero();
+   //component isz2 = IsZero();
+   //component isz3 = IsZero();
+
+   // if all 3 diff = 0 -> equal 
+   a[0] - a[1] === 0;
+   a[1] - a[2] === 0;
+   a[0] - a[2] === 0;
+
+   // if diff non-zero -> not equal
+   if((a[0] - a[1]) > 0){
+      x = 0;
+   }
+   
+   if((a[1] - a[2]) > 0){
+      x = 0;
+   }
+
+   if((a[0] - a[2]) > 0){
+      x = 0;
+   }
+
+  out <-- x;
 */
