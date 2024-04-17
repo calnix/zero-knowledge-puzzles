@@ -10,6 +10,9 @@ pragma circom 2.1.4;
 
 template NotEqual() {
 
+    signal input a[2];
+    signal output out;
+
     // Your code here.
    
 }

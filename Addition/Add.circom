@@ -8,6 +8,12 @@ pragma circom 2.1.4;
 template Add() {
    // Your code here 
    
+   signal input a[2];  //in[0] nad in[1]
+   signal output c;
+
+   c <== (a[0] + a[1]);
+
+
 }
 
 component main  = Add();
