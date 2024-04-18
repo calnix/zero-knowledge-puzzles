@@ -11,8 +11,6 @@ template HasAtLeastOne(n) {
     signal input k;
     signal output out;
 
-    // IsEqual()([in[0], in[1]]);+
-
     // compare each term against k
     signal s[n];
     for (var i = 0; i < n; i++) {
@@ -32,7 +30,6 @@ template HasAtLeastOne(n) {
     }
 
     out <== 1 - m[n-1];
-
 }
 
 component main = HasAtLeastOne(4);
@@ -42,5 +39,16 @@ component main = HasAtLeastOne(4);
 
 if k exists in the array, return 1.
 else return 0.
+
+---------------------------------------------------------
+
+Alternative method, without use of component:
+(this only works if inputs are 1 and 0)
+
+x * y * z = 0
+(x -k)(y - k)(z -k) = 0
+
+for RHS to be 0, one of the roots must be equal to k. e.g. x = k.
+see intro of lesson 2.
 
 */
