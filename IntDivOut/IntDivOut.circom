@@ -10,6 +10,23 @@ template IntDivOut(n) {
     signal input denominator;
     signal output out;
 
+    signal quotient;
+    signal remainder;
+
+    remainder <-- numerator % denominator;
+    quotient <-- numerator \ denominator;
+
+    // constraint forwards
+    numerator === (quotient * denominator) + remainder;
+
+    // constraint remainder
+    signal a;
+    a <== LessThan(n)([remainder, denominator]);
+    a === 1;
+
+    // assign return value to be quotient
+    // returning a value only applies from circuit to circuit. not the outside world
+    out <-- quotient;
 }
 
 component main = IntDivOut(252);
