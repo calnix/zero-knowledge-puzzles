@@ -10,9 +10,33 @@ include "../node_modules/circomlib/circuits/comparators.circom";
 // this is not the modular square root.
 
 
-function intSqrtFloor(x) {
+function intSqrtFloor(n) {
     // compute the floor of the
-    // integer square root
+    // integer square root of x
+
+    // how to revert if n = 0 ?
+    if (n < 0) { return 0}
+
+    // Starting point: Assuming the sqrt of n is n only 
+    var x;
+    x = n;
+
+    var root;
+    while (true) {
+        
+        // Calculate more closed x 
+        root = 0.5 * (x + (n / x)) 
+ 
+        // Check for closeness 
+        if (root - x < l) {return x}
+        if (x - root < l) {return x}
+
+        // Update root 
+        x = root
+ 
+        return root  
+    }
+
 }
 
 template IntSqrtOut(n) {
@@ -22,6 +46,17 @@ template IntSqrtOut(n) {
     out <-- intSqrtFloor(x);
     // constrain out using your
     // work from IntSqrt
+
+
 }
 
 component main = IntSqrtOut(252);
+
+
+/*
+    In IntSqrt we were given both the square root and the original value.
+    
+    In IntSqrtOut, we are only given the original value. 
+    We need to 
+
+*/
